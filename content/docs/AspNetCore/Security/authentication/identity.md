@@ -1,3 +1,8 @@
++++
+date = '2023-06-17'
+title = 'identity'
++++
+
 ASP.NET Core Identity is our self-contained out-of-the-box solution. It includes:
 
 - The **Identity Manager** that provides APIs for working with users (including claims and logins) and roles.

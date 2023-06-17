@@ -1,4 +1,4 @@
-baseURL = 'http://example.org/'
+baseURL = 'https://blog.happtim.com/'
 languageCode = 'en-us'
-title = 'My New Hugo Site'
+sectionPagesMenu = 'main'
 theme = 'LoveIt'

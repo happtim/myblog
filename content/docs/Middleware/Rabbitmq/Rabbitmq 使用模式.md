@@ -1,3 +1,7 @@
++++
+date = '2023-06-17'
+title = 'Rabbitmq 使用模式'
++++
 
 ### **简单模式（Hello World）**
 

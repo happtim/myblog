@@ -5,7 +5,8 @@ title = 'Rabbitmq 使用模式'
 
 ### **简单模式（Hello World）**
 
-![](https://pic1.zhimg.com/80/v2-1df4e06739c7e8a2fd7e78b648be3384_1440w.webp)
+![image.png](http://assets.happtim.com/image/n3dc/202306171544543.png)
+
 
 做最简单的事情，一个生产者对应一个消费者，RabbitMQ相当于一个消息代理，负责将A的消息转发给B
 
@@ -14,7 +15,7 @@ title = 'Rabbitmq 使用模式'
 
 ### **工作队列模式（Work queues）**
 
-![](https://pic2.zhimg.com/80/v2-1b0cf654cc88dd23ae1c2794f83bf5c5_1440w.webp)
+![image.png](http://assets.happtim.com/image/n3dc/202306171546747.png)
 
 在多个消费者之间分配任务（竞争的消费者模式），一个生产者对应多个消费者，一般适用于执行资源密集型任务，单个消费者处理不过来，需要多个消费者进行处理
 
@@ -22,7 +23,9 @@ title = 'Rabbitmq 使用模式'
 
 ### **订阅模式（Publish/Subscribe）**
 
-![](https://pic2.zhimg.com/80/v2-179a893ad5f473d16c510b955abdbf11_1440w.webp)
+![image.png](http://assets.happtim.com/image/n3dc/202306171547173.png)
+
+
 
 一次向许多消费者发送消息，一个生产者发送的消息会被多个消费者获取，也就是将消息将广播到所有的消费者中。
 
@@ -34,7 +37,9 @@ title = 'Rabbitmq 使用模式'
 
 ### **路由模式（Routing）**
 
-![](https://pic3.zhimg.com/80/v2-153b1bfa3943d4396e0902578d7e5c86_1440w.webp)
+![image.png](http://assets.happtim.com/image/n3dc/202306171547205.png)
+
+
 
 有选择地（Routing key）接收消息，发送消息到交换机并且要指定路由key ，消费者将队列绑定到交换机时需要指定路由key，仅消费指定路由key的消息
 
@@ -42,7 +47,9 @@ title = 'Rabbitmq 使用模式'
 
 ### **主题模式（Topics）**
 
-![](https://pic2.zhimg.com/80/v2-08fd278e7686b5ec8a026b5180c04b49_1440w.webp)
+![image.png](http://assets.happtim.com/image/n3dc/202306171547517.png)
+
+
 
 根据主题（Topics）来接收消息，将路由key和某模式进行匹配，此时队列需要绑定在一个模式上，`#`匹配一个词或多个词，`*`只匹配一个词。
 
@@ -50,7 +57,9 @@ title = 'Rabbitmq 使用模式'
 
 ### **远程过程调用（RPC）**
 
-![](https://pic2.zhimg.com/80/v2-120a2104568eb8340d323499f4129611_1440w.webp)
+![image.png](http://assets.happtim.com/image/n3dc/202306171547157.png)
+
+
 
 如果我们需要在远程计算机上运行功能并等待结果就可以使用RPC，具体流程可以看图。应用场景：需要等待接口返回数据，如订单支付
 

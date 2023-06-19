@@ -6,9 +6,9 @@ tags = ['rabbitmq','middleware']
 categories = ['dotnet']
 +++
 
-### **简单模式（Hello World）**
+### 简单模式（Hello World）
 
-![image.png](http://assets.happtim.com/image/n3dc/202306171544543.png)
+![image.png](https://assets.happtim.com/image/n3dc/202306171544543.png)
 
 
 做最简单的事情，一个生产者对应一个消费者，RabbitMQ相当于一个消息代理，负责将A的消息转发给B
@@ -18,7 +18,7 @@ categories = ['dotnet']
 
 ### **工作队列模式（Work queues）**
 
-![image.png](http://assets.happtim.com/image/n3dc/202306171546747.png)
+![image.png](https://assets.happtim.com/image/n3dc/202306171546747.png)
 
 在多个消费者之间分配任务（竞争的消费者模式），一个生产者对应多个消费者，一般适用于执行资源密集型任务，单个消费者处理不过来，需要多个消费者进行处理
 
@@ -26,7 +26,7 @@ categories = ['dotnet']
 
 ### **订阅模式（Publish/Subscribe）**
 
-![image.png](http://assets.happtim.com/image/n3dc/202306171547173.png)
+![image.png](https://assets.happtim.com/image/n3dc/202306171547173.png)
 
 
 
@@ -40,7 +40,7 @@ categories = ['dotnet']
 
 ### **路由模式（Routing）**
 
-![image.png](http://assets.happtim.com/image/n3dc/202306171547205.png)
+![image.png](https://assets.happtim.com/image/n3dc/202306171547205.png)
 
 
 
@@ -50,7 +50,7 @@ categories = ['dotnet']
 
 ### **主题模式（Topics）**
 
-![image.png](http://assets.happtim.com/image/n3dc/202306171547517.png)
+![image.png](https://assets.happtim.com/image/n3dc/202306171547517.png)
 
 
 
@@ -60,7 +60,7 @@ categories = ['dotnet']
 
 ### **远程过程调用（RPC）**
 
-![image.png](http://assets.happtim.com/image/n3dc/202306171547157.png)
+![image.png](https://assets.happtim.com/image/n3dc/202306171547157.png)
 
 
 

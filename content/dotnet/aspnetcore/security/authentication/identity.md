@@ -1,6 +1,9 @@
 +++
 date = '2023-06-17'
 title = 'identity'
+
+tags = ['aspnetcore','identity']
+categories = ['dotnet']
 +++
 
 ASP.NET Core Identity is our self-contained out-of-the-box solution. It includes:

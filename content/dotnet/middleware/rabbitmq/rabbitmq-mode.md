@@ -1,6 +1,11 @@
 +++
 date = '2023-06-17'
 title = 'Rabbitmq 使用模式'
+keywords = ['rabbitmq']
+description = 'rabbitmq 使用模式简介'
+
+tags = ['rabbitmq','middleware']
+categories = ['dotnet']
 +++
 
 ### **简单模式（Hello World）**

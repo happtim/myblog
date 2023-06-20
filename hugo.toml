@@ -15,6 +15,9 @@ theme = "PaperMod"
     hasCJKLanguage = true
 	[languages.zh-cn.params]
 		dateFormat = "2006年01月02日"
+	[languages.zh-cn.params.homeInfoParams]
+		title = "欢迎访问"
+		content = "Welcome to my blog"
     [[languages.zh-cn.menu.main]]
       weight = 1
       identifier = "posts"
@@ -51,6 +54,9 @@ theme = "PaperMod"
     weight = 2
     title = "Tim's Blog"
     languageName = "English"
+	[languages.en.params.homeInfoParams]
+		title = "Hi there wave"
+		content = "Welcome to my blog"
     [[languages.en.menu.main]]
       weight = 1
       identifier = "posts"
@@ -79,25 +85,30 @@ theme = "PaperMod"
 	  
 [params]
 
+	mainSections = ["posts"]
+	
 	env = "production"
+	
+	disableSpecial1stPost = false
 
 	displayFullLangName = true
 
 	# To show read time in post meta
-	ShowReadingTime = true
+	showReadingTime = true
 	
 	# To word count to metadata
 	ShowWordCount = true
 	
 	#To show/hide Table of Contents
-	ShowToc = true
+	showToc = true
 	
 	#To keep open ToC by default on page load
-	TocOpen = true
+	tocOpen = true
 	
 	#Show BreadCrumb Navigation above single post/page
-	ShowBreadCrumbs =  true
+	showBreadCrumbs =  true
 	
 	#ToC will float on the left/right side of the page.
-	TocSide = "right"
+	tocSide = "right"
+	
 	

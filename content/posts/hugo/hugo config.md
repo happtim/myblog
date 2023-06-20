@@ -1,6 +1,6 @@
 +++
 date = '2023-06-19'
-title = "obsidian使用hugo搭建静态网页，github action上传文件到腾讯cos "
+title = "obsidian使用hugo搭建静态网页，github action上传文件到腾讯云cos "
 +++
 
 要使用Hugo搭建静态网页并将生成的文件上传到腾讯COS（对象存储），可以使用GitHub Actions实现自动化部署。

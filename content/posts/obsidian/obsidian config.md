@@ -41,7 +41,6 @@ obsidian的文章同步使用github，需要安装git的插件。
 
 ![image.png](https://assets.happtim.com/image/n3dc/202306200032057.png)
 
-修改文件后提交同步文件，
+修改文件后提交同步文件，按照1：staged  2：commit 3：push 将文档同步到github。
 
-![image.png](https://assets.happtim.com/image/n3dc/202306200038650.png)
-
+![](https://assets.happtim.com/image/n3dc/202306200043481.png)

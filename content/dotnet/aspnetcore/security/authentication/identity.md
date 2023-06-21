@@ -14,5 +14,5 @@ ASP.NET Core Identity is our self-contained out-of-the-box solution. It includes
 - An authentication system (**SignInManager**).
 - A UI for user management (**Identity UI**).
 
-![image.png](http://assets.happtim.com/image/n3dc/202306171548366.png)
+![image.png](https://assets.happtim.com/image/n3dc/202306171548366.png)
 

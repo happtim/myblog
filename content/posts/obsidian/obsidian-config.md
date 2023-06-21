@@ -1,10 +1,8 @@
 +++
 date = '2023-06-19'
-title = 'obsidian 配置'
+title = "obsidian 插件配置 image auto upload，git"
 +++
 
-
-## 安装插件
 
 ### 图床（picgo）
 

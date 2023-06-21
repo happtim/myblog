@@ -16,7 +16,7 @@ categories = ['dotnet']
 **应用场景：** 将发送的电子邮件放到消息队列，然后邮件服务在队列中获取邮件并发送给收件人
 
 
-### **工作队列模式（Work queues）**
+### 工作队列模式（Work queues）
 
 ![image.png](https://assets.happtim.com/image/n3dc/202306171546747.png)
 
@@ -24,7 +24,7 @@ categories = ['dotnet']
 
 **应用场景：** 一个订单的处理需要10s，有多个订单可以同时放到消息队列，然后让多个消费者同时处理，这样就是并行了，而不是单个消费者的串行情况
 
-### **订阅模式（Publish/Subscribe）**
+### 订阅模式（Publish/Subscribe）
 
 ![image.png](https://assets.happtim.com/image/n3dc/202306171547173.png)
 
@@ -38,7 +38,7 @@ categories = ['dotnet']
 - 一个缓存消息队列对应着多个缓存消费者
 - 一个数据库消息队列对应着多个数据库消费者
 
-### **路由模式（Routing）**
+### 路由模式（Routing）
 
 ![image.png](https://assets.happtim.com/image/n3dc/202306171547205.png)
 
@@ -48,7 +48,7 @@ categories = ['dotnet']
 
 **应用场景：** 如在商品库存中增加了1台iphone12，iphone12促销活动消费者指定routing key为iphone12，只有此促销活动会接收到消息，其它促销活动不关心也不会消费此routing key的消息
 
-### **主题模式（Topics）**
+### 主题模式（Topics）
 
 ![image.png](https://assets.happtim.com/image/n3dc/202306171547517.png)
 
@@ -58,7 +58,7 @@ categories = ['dotnet']
 
 **应用场景：** 同上，iphone促销活动可以接收主题为iphone的消息，如iphone12、iphone13等
 
-### **远程过程调用（RPC）**
+### 远程过程调用（RPC）
 
 ![image.png](https://assets.happtim.com/image/n3dc/202306171547157.png)
 
@@ -66,14 +66,14 @@ categories = ['dotnet']
 
 如果我们需要在远程计算机上运行功能并等待结果就可以使用RPC，具体流程可以看图。应用场景：需要等待接口返回数据，如订单支付
 
-### **发布者确认（Publisher Confirms）**
+### 发布者确认（Publisher Confirms）
 
 与发布者进行可靠的发布确认，发布者确认是RabbitMQ扩展，可以实现可靠的发布。在通道上启用发布者确认后，RabbitMQ将异步确认发送者发布的消息，这意味着它们已在服务器端处理。
 
 **应用场景：** 对于消息可靠性要求较高，比如钱包扣款
 
 
-### **四种交换机**
+### 四种交换机
 
 直连交换机（Direct exchange）： 具有路由功能的交换机，绑定到此交换机的时候需要指定一个routing_key，交换机发送消息的时候需要routing_key，会将消息发送道对应的队列
 

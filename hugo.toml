@@ -16,7 +16,7 @@ theme = "PaperMod"
 	[languages.zh-cn.params]
 		dateFormat = "2006年01月02日"
 	[languages.zh-cn.params.homeInfoParams]
-		title = "欢迎访问"
+		title = "欢迎访问👋"
 		content = "Welcome to my blog"
     [[languages.zh-cn.menu.main]]
       weight = 1

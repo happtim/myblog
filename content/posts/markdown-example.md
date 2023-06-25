@@ -17,7 +17,7 @@ title = "markdown 语法"
 要创建段落，请使用空白行将一行或多行文本进行分隔。
 
 I really like using Markdown.  
-  
+
 I think I'll use it to format all of my documents from now on.
 
 ## 换行语法
@@ -227,6 +227,11 @@ This is the _[Markdown Guide](https://www.markdownguide.org/)_.
 | Header    |    Title    | Here’s this |
 | Paragraph |    Text     |    And more |
 
+## 格式化表格中的文字
+
+您可以在表格中设置文本格式。例如，您可以添加链接，代码（仅反引号（`` ` ``）中的单词或短语，而不是代码块）和强调。
+
+您不能添加标题，块引用，列表，水平规则，图像或HTML标签。
 
 # 任务列表
 

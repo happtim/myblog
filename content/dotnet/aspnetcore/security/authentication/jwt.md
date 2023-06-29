@@ -1,6 +1,9 @@
 +++
 Date = "2023-06-26"
 Title = "ASP.NET Core中的Web API中使用JWT身份验证"
+
+tags = ['aspnetcore','jwt']
+categories = ['dotnet']
 +++
 
 学习如何在ASP.NET Core中使用JWT身份验证保护Web API端点。JWT身份验证机制向经过身份验证的客户端发放一个经过数字签名的Bearer令牌。然后客户端需要在每个请求的请求头中提供该令牌以获取对受保护资源的访问权限。JWT身份验证通常用于Web API（REST API）。

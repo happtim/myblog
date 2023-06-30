@@ -164,3 +164,79 @@ public async Task<IActionResult> Register(RegisterViewModel model, string return
 
 ## Test Register, confirm email, and reset password
 
+运行网页应用程序，并测试账户确认和密码恢复流程。
+
+1. 运行应用程序并注册一个新用户
+2. 在电子邮件中检查账户确认链接。
+4. 点击链接确认您的电子邮箱。
+5. 使用您的电子邮件和密码登录。
+5. 退出登录。
+
+![image.png](https://assets.happtim.com/image/n3dc/202306291616452.png)
+![image.png](https://assets.happtim.com/image/n3dc/202306291617801.png)
+
+### Change email and activity timeout
+
+默认cookie的`ExpireTimeSpan = TimeSpan.FromDays(14);` ,也就是说用户登录14天内有效。如果想更改默认有效时间。此方法也是Identity的扩展方法。
+
+```csharp
+builder.Services.ConfigureApplicationCookie(o => {
+    o.ExpireTimeSpan = TimeSpan.FromDays(5);
+    o.SlidingExpiration = true;
+});
+```
+
+### Change all data protection token lifespans
+
+默认的邮件链接有效时间是1天，可以通过如下配置修改有效时间。修改配置项是在`DataProtectionTokenProvider`验证的时候使用。
+
+但是这样配置之后所用使用`DataProtectionTokenProvider`的Token提供者都需要1天。
+
+```csharp
+builder.Services.Configure<DataProtectionTokenProviderOptions>(o => o.TokenLifespan = TimeSpan.FromHours(3));
+```
+
+  
+### Change the email token lifespan
+
+上面修改是全局修改，如何想单独修改Email的链接有效时间，需要自定义`DataProtectionTokenProvider`
+
+添加自定义的`DataProtectorTokenProvider<TUser>`和`DataProtectionTokenProviderOptions`。
+
+```csharp
+public class CustomEmailConfirmationTokenProvider<TUser>
+                              :  DataProtectorTokenProvider<TUser> where TUser : class
+{
+    public CustomEmailConfirmationTokenProvider(
+        IDataProtectionProvider dataProtectionProvider,
+        IOptions<EmailConfirmationTokenProviderOptions> options,
+        ILogger<DataProtectorTokenProvider<TUser>> logger)
+                                       : base(dataProtectionProvider, options, logger)
+    {
+
+    }
+}
+public class EmailConfirmationTokenProviderOptions : DataProtectionTokenProviderOptions
+{
+    public EmailConfirmationTokenProviderOptions()
+    {
+        Name = "EmailDataProtectorTokenProvider";
+        TokenLifespan = TimeSpan.FromHours(4);
+    }
+}
+```
+
+将自定义提供程序添加到服务容器中：
+
+```csharp
+builder.Services.AddDefaultIdentity<IdentityUser>(config =>
+{
+    config.SignIn.RequireConfirmedEmail = true;
+    config.Tokens.ProviderMap.Add("CustomEmailConfirmation",
+        new TokenProviderDescriptor(
+            typeof(CustomEmailConfirmationTokenProvider<IdentityUser>)));
+    config.Tokens.EmailConfirmationTokenProvider = "CustomEmailConfirmation";
+}).AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddTransient<CustomEmailConfirmationTokenProvider<IdentityUser>>();
+```

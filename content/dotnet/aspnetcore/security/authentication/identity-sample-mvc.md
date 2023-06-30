@@ -15,7 +15,6 @@ categories = ['dotnet']
 |   [代码地址](https://github.com/happtim/mylinqpad/tree/main/AspNetCore/Security/Authentication/IdentitySample.Mvc)      | .Net7    | 
 
 
-
 ### 数据库配置
 
 Identity API 使用Entity Framework Core 和 SQL Server。
@@ -110,7 +109,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 接着，通过.AddSignInManager()将SignInManager服务添加到身份验证服务中，SignInManager用于处理用户登录。
 
-最后，通过.AddDefaultTokenProviders()添加默认的令牌提供程序，以便使用身份验证时可以生成和验证令牌。
+最后，通过.AddDefaultTokenProviders()添加默认的令牌提供程序，以便使用身份验证时可以生成和验证令牌。当我们邮件确认注册，或者邮件找回的时候，发送邮件里面包含一个token就是由`DataProtectorTokenProvider`产生的。当我们绑定手机发送验证码时，发送的6位数字就是由`PhoneNumberTokenProvider`产生的。 具体验证过程讲解在[[identity-token-provider]]
 
 第二个部分注册`AddAuthentication`服务中，`builder.Services.AddAuthentication(o => {...})`用于配置身份验证中间件。在这里，我们将默认的身份验证方案设置为`IdentityConstants.ApplicationScheme`，将默认的登录方案设置为`IdentityConstants.ExternalScheme`。
 
@@ -148,7 +147,7 @@ app.Run();
 
 ### Register User
 
-```
+```csharp
 //
 // POST: /Account/Register
 [HttpPost]

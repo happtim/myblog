@@ -1,12 +1,10 @@
 +++
 Date = "2023-06-26"
-Title = "ASP.NET Core中的Web API中使用JWT身份验证"
+Title = "ASP.NET Core中使用JWT身份验证"
 
-tags = ['aspnetcore','jwt']
+tags = ['aspnetcore','authentication']
 categories = ['dotnet']
 +++
-
-学习如何在ASP.NET Core中使用JWT身份验证保护Web API端点。JWT身份验证机制向经过身份验证的客户端发放一个经过数字签名的Bearer令牌。然后客户端需要在每个请求的请求头中提供该令牌以获取对受保护资源的访问权限。JWT身份验证通常用于Web API（REST API）。
 
 ## What is JWT？
 
@@ -80,6 +78,10 @@ HMACSHA256(
 
 
 ## 代码示例
+
+| 地址 | .Net版本 |
+| -------- | -------- |
+| [AspNetCore/Security/Authentication](https://github.com/happtim/aspnetcore-developer-roadmap/tree/main/AspNetCore/Security/Authentication)  | .Net6    | 
 
 ### Registering the Authentication Services
 
@@ -308,7 +310,7 @@ public ClaimsPrincipal GetPrincipalFromToken(string token)
 }
 ```
 
-## Signing In
+### Signing In
 
 SignInManager会将用户登录。它将使用JWTAuthService创建访问和刷新令牌。
 
@@ -342,24 +344,12 @@ public async Task<SignInResult> SignIn(string userName, string password)
 }
 ```
 
-我们查询数据库，以检查是否存在具有给定电子邮件和密码的用户。
-如果用户存在，我们将建立Claims。
 
-```csharp
-var user = await _userService.Authenticate(userName,password);
-```
+这段代码通过调用`_userService.Authenticate(userName, password)`方法从数据库中验证用户名和密码。如果验证成功（`user`不为空），接下来将构建`claims`并设置`result.User`为验证成功的用户。
 
-我们使用JwtAuthService来构建访问令牌和刷新令牌
+然后，使用`_JwtAuthService.GenerateSecurityToken(claims)`方法创建访问令牌（Access token）并将其赋值给`result.AccessToken`。再调用`_JwtAuthService.BuildRefreshToken()`方法创建刷新令牌（Refresh token）并将其赋值给`result.RefreshToken`。
 
-```csharp
-result.AccessToken = _JwtAuthService.GenerateSecurityToken(claims);
-result.RefreshToken = _JwtAuthService.BuildRefreshToken();
-```
-
-将`JwtAuthService`存储到数据库中。
-```csharp
-_refreshTokenService.Add(new RefreshToken { UserId = user.Id, Token = result.RefreshToken, IssuedAt = DateTime.Now, ExpiresAt = DateTime.Now.AddMinutes(_jwtTokenConfig.RefreshTokenExpiration) });
-```
+接下来，将刷新令牌和相关信息保存到数据库中，以便后续使用。`_refreshTokenService.Add()`方法将刷新令牌添加到数据库中。
 
 RefreshToken方法验证当前的访问令牌和刷新令牌，并生成新的访问令牌和刷新令牌。
 
@@ -404,40 +394,16 @@ public async Task<SignInResult> RefreshToken(string AccessToken, string RefreshT
 }
 ```
 
-首先，我们使用当前访问令牌重新创建ClaimsPrincipal对象。
 
-```csharp
-ClaimsPrincipal claimsPrincipal = _JwtAuthService.GetPrincipalFromToken(AccessToken);
-```
+该代码的功能是使用当前的 Access Token 恢复出 ClaimsPrincipal，然后根据 ClaimsPrincipal 查询用户信息和刷新令牌，最后创建新的 Access Token 和 Refresh Token，并更新数据库中的令牌信息。
 
-我们从claimsPrincipal访问用户的id，并查询以检查用户是否存在。
+具体步骤如下：
+1. 使用 _JwtAuthService 的 GetPrincipalFromToken 方法将 Access Token 解析为 ClaimsPrincipal 对象。
+2. 使用 _userService 的 FindAsync 方法根据 id 查找用户信息。
+3. 根据用户 id、Refresh Token 和当前时间，从 _refreshTokenService 获取数据库中未过期的 Refresh Token。
+4. 使用 BuildClaims 方法根据用户信息构建新的 Claim 列表。
+5. 将用户信息、生成的 Access Token 和 Refresh Token 分别赋值给 result 对象的对应属性。
+6. 使用 _refreshTokenService 的 Remove 方法删除旧的 Refresh Token。
+7. 使用 _refreshTokenService 的 Add 方法将新的 Refresh Token 添加到数据库中。该 Refresh Token 包括用户 id、Token、颁发时间 IssuedAt 和过期时间 ExpiresAt。
 
-```csharp
-string id = claimsPrincipal.Claims.First(c => c.Type == "id").Value;
-var user = await _userService.FindAsync(Convert.ToInt32(id));
-```
-
-接下来，我们查询RefreshTokens表来检查刷新令牌是否属于该用户并且尚未过期。
-
-```csharp
-var token = _refreshTokenService.GetAll()
-			.Where(f => f.UserId == user.Id
-					&& f.Token == RefreshToken
-					&& f.ExpiresAt >= DateTime.Now)
-			.FirstOrDefault();
-```
-
-如果一切正常，我们会构建声明并创建一个新的访问令牌和刷新令牌。旧的刷新令牌将被删除，并将新的令牌保存在数据库中。
-
-```csharp
-var claims = BuildClaims(user);
-
-//创建新的AccessToken和RefreshToken
-result.User = user;
-result.AccessToken = _JwtAuthService.GenerateSecurityToken(claims);
-result.RefreshToken = _JwtAuthService.BuildRefreshToken();
-
-//删除旧的Token 并添加新的过去token。
-_refreshTokenService.Remove(token);
-_refreshTokenService.Add(new RefreshToken { UserId = user.Id, Token = result.RefreshToken, IssuedAt = DateTime.Now, ExpiresAt = DateTime.Now.AddMinutes(_jwtTokenConfig.RefreshTokenExpiration) });
-```
+最终，代码将会返回一个 SignInResult 对象，其中包含了用户信息、生成的 Access Token 和 Refresh Token。

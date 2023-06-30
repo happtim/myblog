@@ -58,6 +58,7 @@ PM> Update-Database
 #### Registering a new user
 
 点击注册用户按钮就可以注册一个用户。注册时的密码有一些预定于配置，需要在程序的注册服务AddDefaultIdentity中配置。示例中配置：
+
 ```csharp
 services.AddDefaultIdentity<ApplicationUser>(o => {
 	o.SignIn.RequireConfirmedAccount = false; //是否需要电子邮件确认。 默认为 false。
@@ -292,7 +293,7 @@ Identity Razor类库隐藏了所有的UI表单、服务等内容。但是如果�
 
 
 
-![image.png](https://assets.happtim.com/image/n3dc/202306251508868.png)
+![image.png](https://assets.happtim.com/image/n3dc/202306291605561.png)
 
 
 ### Register Form

@@ -1,3 +1,9 @@
++++
+Date = "2023-06-30"
+Title = "ASP.NET Core中的身份验证"
+
+tags = ['aspnetcore','authentication']
++++
 
 ## What is Authentication
 

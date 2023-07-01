@@ -3,7 +3,6 @@ Date = "2023-6-27"
 Title = "ASP.NET Core identity 使用Mvc"
 
 tags = ['aspnetcore','identity']
-categories = ['dotnet']
 +++
 
 ## 项目示例

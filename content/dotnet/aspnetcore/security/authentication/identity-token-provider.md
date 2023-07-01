@@ -3,7 +3,6 @@ Date = "2023-6-29"
 Title = "ASP.NET Core identity TokenProvider 理解"
 
 tags = ['aspnetcore','identity']
-categories = ['dotnet']
 +++
 
 ## 什么是Token？为什么我们需要它？

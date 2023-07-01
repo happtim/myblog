@@ -3,7 +3,6 @@ Date = "2023-06-29"
 Title = "ASP.NET Core中使用Cookie身份验证"
 
 tags = ['aspnetcore','authentication']
-categories = ['dotnet']
 +++
 
 ## 代码示例
@@ -33,17 +32,10 @@ services.AddAuthentication()
     .AddCookie();
 ```
 
-当程序运行的时候登录时，会有如下的错误。是因为我们没有指定默认Schema。
+当程序运行的时候登录时，会有如下的错误。是因为我们没有指定默认Scheme。
 
 ```
 System.InvalidOperationException: No authenticationScheme was specified, and there was no DefaultChallengeScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions).
-   at Microsoft.AspNetCore.Authentication.AuthenticationService.ChallengeAsync(HttpContext context, String scheme, AuthenticationProperties properties)
-   at Microsoft.AspNetCore.Authorization.Policy.AuthorizationMiddlewareResultHandler.HandleAsync(RequestDelegate next, HttpContext context, AuthorizationPolicy policy, PolicyAuthorizationResult authorizeResult)
-   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
-   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
-   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext) in C:\projects\ahoy\src\Swashbuckle.AspNetCore.SwaggerUI\SwaggerUIMiddleware.cs:line 77
-   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider) in C:\projects\ahoy\src\Swashbuckle.AspNetCore.Swagger\SwaggerMiddleware.cs:line 32
-   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
 ```
 
 我们可以有两种方式解决：
@@ -81,10 +73,10 @@ app.MapGet("Account/Home", [Authorize(AuthenticationSchemes = CookieAuthenticati
 
 ### Authentication Scheme
 
-每个使用AddAuthentication方法注册的身份验证处理程序都成为一个新的身份验证方案
 
-一个身份验证方案由以下组成
+Authentication Scheme可以选择负责生成正确声明集的认证处理程序。每个使用AddAuthentication方法注册的身份验证处理程序都成为一个新的身份验证方案。
 
+一个身份验证方案由以下组成：
 1. 一个唯一的名称，用于标识身份验证方案
 2. 身份验证处理程序
 3. 用于配置处理程序特定实例的选项
@@ -180,6 +172,8 @@ UseAuthentication()注册身份验证中间件。
 我们将身份验证中间件放置在EndPoint Routing之后。因此，它知道处理请求的控制器操作方法是哪个。
 
 它必须位于授权中间件（UseAuthorization()）和终结点中间件（UseEndPoints()）之前。
+- 在使用 UseRouting 后，使路由信息能够用于认证决策。
+- 在使用 UseEndpoints 之前，使用户在访问端点之前完成身份验证。
 
 在中间件管道中的UseAuthentication()之后出现的所有中间件都可以通过检查HttpContext.User属性来检查用户是否经过身份验证。
 

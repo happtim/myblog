@@ -3,7 +3,6 @@ Date = "2023-06-26"
 Title = "ASP.NET Core中使用JWT身份验证"
 
 tags = ['aspnetcore','authentication']
-categories = ['dotnet']
 +++
 
 ## What is JWT？

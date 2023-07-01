@@ -3,7 +3,6 @@ date = '2023-06-17'
 title = 'identity 介绍'
 
 tags = ['aspnetcore','identity']
-categories = ['dotnet']
 +++
 
 ASP.NET Core Identity是我们提供的自包含、开箱即用的解决方案。它包括以下内容：

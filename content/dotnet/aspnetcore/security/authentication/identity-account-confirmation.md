@@ -3,7 +3,6 @@ Date = "2023-06-28"
 Title = "ASP.NET Core identity 账户确认和密码找回"
 
 tags = ['aspnetcore','identity']
-categories = ['dotnet']
 +++
 
 ## 项目示例

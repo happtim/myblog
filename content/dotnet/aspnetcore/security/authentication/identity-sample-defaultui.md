@@ -3,7 +3,6 @@ date = '2023-06-17'
 title = 'ASP.NET Core identity 使用默认ui'
 
 tags = ['aspnetcore','identity']
-categories = ['dotnet']
 +++
 
 ## ASP.NET Core Identity DefaultUI 项目示例

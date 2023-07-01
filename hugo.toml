@@ -119,4 +119,5 @@ theme = "PaperMod"
 	#ToC will float on the left/right side of the page.
 	tocSide = "right"
 
+	ShowAllPagesInArchive = true
 	

@@ -21,19 +21,25 @@ OAuth 解决了代理授权的问题，但是它没有提供一个认证用户�
 
 ![image.png](https://assets.happtim.com/image/n3dc/202307101454784.png)
 
-## OpenID Connect 比 OAuth2.0 多了什么？
+## OpenID Connect 比 OAuth2.0 有哪些变化？
 
-1. scopes
-	OpenID Connect带来的变化中，可以说最重要的是一组标准的作用域。在OAuth 2.0规范中，作用域可以任意由OAuth提供者定义。虽然这种灵活性很大，但实际上使得互操作性几乎不可能。OIDC将这些作用域标准化为openid、profile、email和address。
+OIDC 使用 OAuth 2.0 作为底层协议。在此基础上又新增了一些规范。
 
-2. Claims
-	除了标准化使用的范围外，OpenID Connect 还标准化了用于 OpenID Connect 范围的声明集合。正是这些标准的声明集合包含了用于认证的用户特定信息。例如，通过具体命名为 given_name 和 family_name 的声明，来自其他组织的其他系统可以以可重复、可预测的模式创建和接收用户信息。
+1. Scopes在OAuth 2.0规范中，作用域可以任意由OAuth提供者定义。虽然这种灵活性很大，但实际上使得互操作性几乎不可能。OIDC将这些作用域标准化为openid（必须）、profile、email和address。
+2. 除了标准化使用的范围外，OpenID Connect 还标准化了用于 OpenID Connect 范围的Claims。正是这些标准的声明集合包含了用于认证的用户特定信息。例如，通过具体命名为 given_name 和 family_name 的声明。
+3. ID Token包含有关已认证用户的一些重要信息，如用户唯一标识符（sub）、用户姓名（name）、电子邮件地址（email）等。该令牌的目的是让客户端应用程序验证用户的身份，并使用这些信息执行后续的授权和访问控制操作。
+4. 除了ID令牌之外，在实现OpenID Connect时还有标准化的端点。UserInfo Endpoint：用于通过访问令牌（Access Token）获取关于已认证用户的信息，返回用户的Claims。
+5. 使用“flow”来代替OAuth2的“grant”，如在OIDC中 Authorization Code Flow 其实是OAuth2.0 中的 Authorization Code Grant
+6. response_type 添加Id_token返回类型。
 
-3. ID token
-	对于OpenID Connect，可以使用范围(scope)来请求特定的信息。这些信息以声明值(claim values)的形式提供。ID令牌中的身份信息专门用于供第三方应用程序读取，以在多个网络应用程序中进行身份验证，这是联合(federation)的一个重要组成部分。
-
-4. User info endpoint
-	除了ID令牌之外，在实现OpenID Connect时还有标准化的端点。特别是，/userinfo端点允许验证身份信息元数据，并且对于与其他OpenID Connect系统的互操作性以及适用于企业级解决方案非常重要。
+|"response_type" value|Flow|
+|:--|:--|
+|code|Authorization Code Flow|
+|id_token|Implicit Flow|
+|id_token token|Implicit Flow|
+|code id_token|Hybrid Flow|
+|code token|Hybrid Flow|
+|code id_token token|Hybrid Flow|
 
 ### 术语
 
@@ -49,8 +55,8 @@ OAuth 解决了代理授权的问题，但是它没有提供一个认证用户�
 | Scopes | _role, groups, attributes, access control list, scopes_ | 访问控制信息、用户组、角色、属性等，由依赖方（RP）用于向用户授予特定的授权/访问权限。 |
 | SSO | Single Sign On | 一个OIDC提供者（OP）和一组依赖方（RPs），为用户提供独特的登录面板，并统一处理用户的会话信息。 |
 | Identity Token | - |身份令牌代表了身份验证过程的结果。它至少包含用户的标识符（称为子主题声明），以及关于用户是如何和何时进行认证的信息。它还可以包含其他身份数据。 |
-| Access token | - | 访问令牌具有特定权限，并用于从API获取数据。它的有效期很短，通常在24小时内过期。 |
-| Refresh token| - |刷新令牌使持有人能够请求并获取新的访问令牌。这些新获取的访问令牌具有刷新令牌拥有的权限的子集。刷新令牌永不过期。|
+| Access token | - | 在OAuth2中定义，这个令牌提供对请求授权服务器中Scopes值所定义的特定用户资源的访问。 |
+| Refresh token| - |来自OAuth2规范，这个令牌通常具有长时间的生命周期，可以用来获取新的访问令牌。|
 
 
 
@@ -93,8 +99,17 @@ OAuth 解决了代理授权的问题，但是它没有提供一个认证用户�
 ### 几种授权流程
 
 1. 授权码流程（ 最常用的流程），用于传统的Web应用程序以及原生/移动应用程序。包括将初始浏览器重定向到/从OP进行用户身份验证和同意，然后进行第二个后台请求以检索ID令牌。此流程提供最佳的安全性，因为令牌不会暴露给浏览器，客户端也可以进行身份验证。
-2.  隐式流程 （ 用于没有后端的浏览器（JavaScript）应用程序）ID令牌直接与OP的重定向响应一起接收。此处不需要后台请求。
-3. 混合流程 （ 很少使用），允许应用程序前端和后端分别接收令牌。基本上是代码和隐式流程的组合。
+2.  隐式流程 （ 用于没有后端的浏览器（JavaScript）应用程序）ID令牌直接与OP的重定向响应一起接收。此处不需要后台请求。responsetype=token id_token/id_token
+3. 混合流程 （ 很少使用），允许应用程序前端和后端分别接收令牌。基本上是代码和隐式流程的组合。responsetype=code id_token/code token/code id_token token
+
+|Property|Authorization Code Flow|Implicit Flow|Hybrid Flow|
+|:--|:--|:--|:--|
+|access token和id token都通过Authorization endpoint返回|no|yes|no|
+|两个token都通过token end point 返回|yes|no|no|
+|用户使用的端(浏览器或者手机）无法查看token|yes|no|no|
+|Client can be authenticated|yes|no|yes|
+|支持刷新token|yes|no|yes|
+|不需要后端参与|no|yes|no|
 
 ##  授权码流程
 

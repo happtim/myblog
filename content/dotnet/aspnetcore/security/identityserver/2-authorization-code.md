@@ -2,7 +2,7 @@
 Date = "2023-07-13"
 Title = "IdentityServer实现Authorization Code 流程"
 
-tags = ['oauth2.0','identityserver']
+tags = ['OIDC','identityserver']
 +++
 
 在这个快速起步教程中，您将为您在快速起步1中构建的IdentityServer添加对OpenID Connect协议的交互式用户认证支持。一旦完成，您将创建一个ASP.NET Razor Pages应用程序，该应用程序将使用IdentityServer进行身份验证。

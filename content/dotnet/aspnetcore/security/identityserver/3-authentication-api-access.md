@@ -2,7 +2,7 @@
 Date = "2023-07-13"
 Title = "IdentityServer同时实现认证和访问API"
 
-tags = ['oauth2.0','identityserver']
+tags = ['OIDC','identityserver']
 +++
 
 OpenID Connect和OAuth的结合非常简洁；您可以通过令牌服务在一次交互中实现用户认证和API访问。
@@ -110,3 +110,39 @@ public class CallApiModel : PageModel
 确保 IdentityServer 和 Api 项目正在运行，启动 WebClient 并在身份验证后请求 /CallApi。
 
 ![image.png](https://assets.happtim.com/image/n3dc/202307132328134.png)
+
+## 保护API几种方式
+
+### 通过JWT保护
+
+在上述案例中，我们只关心确保访问令牌来自您信任的IdentityServer。JWT的配置如下。
+
+```csharp
+public class Startup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                // base-address of your identityserver
+                options.Authority = "https://demo.duendesoftware.com";
+
+                // audience is optional, make sure you read the following paragraphs
+                // to understand your options
+                options.TokenValidationParameters.ValidateAudience = false;
+
+                // it's recommended to check the type header to avoid "JWT confusion" attacks
+                options.TokenValidationParameters.ValidTypes = new[] { "at+jwt" };
+            });
+    }
+}
+
+```
+
+仅仅确保令牌来自受信任的发行者对于大多数情况来说并不足够。在更复杂的系统中，您将拥有多个资源和多个客户端。并非每个客户端都有权限访问每个资源。
+
+在OAuth中，有两种互补的机制可以嵌入有关令牌的“功能性”更多信息 - audience和scope。
+
+
+

@@ -2,7 +2,7 @@
 Date = "2023-07-10"
 Title = "OpenID Connect"
 
-tags = ['oauth2.0','openidconnect']
+tags = ['oauth2.0','OIDC']
 +++
 
 ## 什么是OpenID Connect？

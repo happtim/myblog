@@ -2,7 +2,7 @@
 Date = "2023-07-14"
 Title = "IdentityServer使用entityframeworkcore存储配置"
 
-tags = ['OIDC','identityserver',‘entityframeworkcore’]
+tags = ['OIDC','identityserver','entityframeworkcore']
 +++
 
 在之前的快速入门中，您使用代码配置了客户端和范围。IdentityServer在启动时将此配置数据加载到内存中。要修改配置，需要重新启动。IdentityServer还会生成临时数据，例如授权码、同意选择和刷新令牌。在快速入门的这一点上，此数据也存储在内存中。

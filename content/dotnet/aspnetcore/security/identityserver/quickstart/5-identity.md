@@ -2,7 +2,7 @@
 Date = "2023-07-14"
 Title = "IdentityServer结合ASP.NET Core Identity"
 
-tags = ['OIDC','identityserver',‘identity’]
+tags = ['OIDC','identityserver','identity']
 +++
 
 IdentityServer的灵活设计允许您使用任何数据库来存储用户及其数据，包括密码哈希、多因素身份验证详细信息、角色、声明、个人资料数据等。如果您从头开始创建一个新的用户数据库，那么ASP.NET Core Identity就是一个可选的选择。本快速入门将展示如何在IdentityServer中使用ASP.NET Core Identity。

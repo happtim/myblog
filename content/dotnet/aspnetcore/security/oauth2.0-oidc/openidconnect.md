@@ -170,8 +170,12 @@ ID 令牌的有效负载包括了一些被称作声明的域。基本的必填�
 - iss：令牌发布者
 - sub：用户的唯一标识符
 - email：用户的邮箱
+- aud：Audience(s) 标识ID Token的受众。
 - iat：用 Unix 时间表示的令牌发布时间
 - exp：Unix 时间表示的令牌到期时间
+- nonce：RP发送请求的时候提供的随机字符串，用来减缓重放攻击。
+- amr： Authentication Methods References：可选。表示一组认证方法。
+- acr： Authentication Context Class Reference：可选。表示一个认证上下文引用值，可以用来标识认证上下文类。
 
 如果客户端需要更多的用户信息，客户端可以指定标准的 OpenID Connect 范围，来告知授权服务端将所需信息包括在 ID 令牌的有效负载中。这些范围包括个人主页（profile）、邮箱（email）、地址（address）和电话（phone）。
 

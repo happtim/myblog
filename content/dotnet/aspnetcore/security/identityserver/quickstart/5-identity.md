@@ -61,7 +61,7 @@ app.UseSerilogRequestLogging();
   
 if (app.Environment.IsDevelopment())  
 {  
-app.UseDeveloperExceptionPage();  
+	app.UseDeveloperExceptionPage();  
 }  
   
 SeedData.EnsureSeedData(app);  
@@ -115,7 +115,6 @@ alice = new ApplicationUser
 ```
 dotnet ef migrations add CustomProfileData
 dotnet run /seed
-
 ```
 
 现在数据库中有更多的数据，您可以使用这些数据来设置声明。IdentityServer 包含一个名为 IProfileService 的扩展点，负责检索用户声明。ASP.NET Identity 集成包括一个实现了 IProfileService 接口的实现，从 ASP.NET Identity 中检索声明。您可以扩展该实现，将自定义配置文件数据作为声明数据的源。

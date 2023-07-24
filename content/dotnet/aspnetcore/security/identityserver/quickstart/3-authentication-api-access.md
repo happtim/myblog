@@ -140,9 +140,67 @@ public class Startup
 
 ```
 
+### 通过audience验证
+
 仅仅确保令牌来自受信任的发行者对于大多数情况来说并不足够。在更复杂的系统中，您将拥有多个资源和多个客户端。并非每个客户端都有权限访问每个资源。
 
 在OAuth中，有两种互补的机制可以嵌入有关令牌的“功能性”更多信息 - audience和scope。
+
+如果您根据API资源的概念设计了您的API，您的IdentityServer将默认发出aud声明（在此示例中为api1）。
+
+```json
+{
+    "typ": "at+jwt",
+    "kid": "123"
+}.
+{
+    "aud": "api1",
+
+    "client_id": "mobile_app",
+    "sub": "123",
+    "scope": "read write delete"
+}
+
+```
+
+### 通过scope的授权
+
+访问令牌将包括用于授权的附加声明，例如范围声明将反映客户端在令牌请求期间请求的（并且已被授予的）范围。
+
+在ASP.NET core中，JWT负载的内容会转换为声明，并打包在ClaimsPrincipal中。为了更好地封装和重用，使用ASP.NET Core授权策略功能。使用此方法，首先将声明要求转化为命名策略：
+
+```csharp
+builder.Services.AddAuthorization(options =>  
+	options.AddPolicy("ApiScope", policy =>  
+	{  
+		policy.RequireAuthenticatedUser();  
+		policy.RequireClaim("scope", "api1");  
+	})  
+);
+```
+
+...然后强制执行它，例如使用路由表：
+
+```csharp
+app.MapControllers().RequireAuthorization("ApiScope");
+```
+
+### Scope声明格式
+
+历史上，Duende IdentityServer在JWT中将作用域声明作为数组发出。此方法在.NET反序列化逻辑中非常有效，它将每个数组项转换为类型为scope的单独的声明。
+
+较新的OAuth规范中的JWT配置要求scope声明是一个用空格分隔的字符串。您可以通过在选项中设置EmitScopesAsSpaceDelimitedStringInJwt来更改格式。但这意味着使用访问令牌的代码可能需要进行调整。
+
+可以安装包：
+
+```
+dotnet package add IdentityModel.AspNetCore.AccessTokenValidation
+```
+
+在程序配置服务如下：
+
+```csharp
+builder.Services.AddScopeTransformation();
 
 
 

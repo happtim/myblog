@@ -25,7 +25,7 @@ tags = ['OIDC','identityserver','BBF']
 
 通过从src/ JavaScriptClient目录运行以下命令，安装NuGet软件包以向新项目添加BFF和OIDC支持：
 
-```csharp
+```
 dotnet add package Microsoft.AspNetCore.Authentication.OpenIdConnect
 dotnet add package Duende.BFF
 dotnet add package Duende.BFF.Yarp

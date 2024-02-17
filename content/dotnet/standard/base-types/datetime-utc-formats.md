@@ -5,6 +5,12 @@ title = "DateTime UTC 格式"
 categories = ['dotnet']
 +++
 
+## Question
+
+假设我运营一个外贸网站，网站后台管理系统部署在国内，前台系统部署在美国，面向美国的客户。我的在后台管理系统中创建一个产品，创建时间自然是使用北京时间，精确到时分秒，然而美国时间比北京时间慢 12 个小时，用户在美国浏览我的网站，就会看到”12个小时之后“的产品，美国用户难免会像我喝团购牛奶时看到生产日期时一样，产生一些疑问和恐慌，并质疑我网站上产品的靠谱性。
+
+也就是说我在我的外贸网站后台管理系统中新增产品的时候，应该使用 UTC 时间作为产品的创建时间，在前台网站显示时应该把 UTC 时间转为本地时间。
+
 ## Introduction
 
 ISO 8601是一个国际标准，用于表示日期和时间的格式。它由国际标准化组织（ISO）制定，
@@ -48,3 +54,59 @@ YYYY-MM-DDThh:mm:ss.sTZD (eg 1997-07-16T19:20:30.45+01:00)
 1994-11-05T08:15:30-05:00 对应于1994年11月5日上午8点15分30秒，美国东部标准时间。
 
 1994-11-05T13:15:30Z 对应着同一时间。
+
+
+## DateTime 的 Kind属性
+
+DateTime 有这 3 中类型。我们可以做一个实验：
+
+```csharp
+var utcNow = DateTime.UtcNow;
+var now = DateTime.Now;
+var localDateTime = utcNow.ToLocalTime(); // UTC 时间转本地时间
+var localLocalDateTime = localDateTime.ToLocalTime(); // 本地时间转本地时间
+var unspecifiedDateTime = DateTime.SpecifyKind(now, DateTimeKind.Unspecified); // 使用 SpecifyKind 自定义 Kind
+var unspecifiedToLocalDateTime = unspecifiedDateTime.ToLocalTime(); // unspecified 转本地
+
+Console.WriteLine($"utcNow: {utcNow}");
+Console.WriteLine($"utcNow.Kind: {utcNow.Kind}");
+Console.WriteLine($"now: {now}");
+Console.WriteLine($"now.Kind: {now.Kind}");
+Console.WriteLine($"localDateTime: {localDateTime}");
+Console.WriteLine($"localDateTime.Kind: {localDateTime.Kind}");
+Console.WriteLine($"localLocalDateTime: {localLocalDateTime}");
+Console.WriteLine($"localLocalDateTime.Kind: {localLocalDateTime.Kind}");
+Console.WriteLine($"unspecifiedDateTime: {unspecifiedDateTime}");
+Console.WriteLine($"unspecifiedDateTime.Kind: {unspecifiedDateTime.Kind}");
+Console.WriteLine($"unspecifiedToLocalDateTime: {unspecifiedToLocalDateTime}");
+Console.WriteLine($"unspecifiedToLocalDateTime.Kind: {unspecifiedToLocalDateTime.Kind}");
+```
+
+运行结果：
+
+```
+utcNow: 2022/6/8 14:01:19
+utcNow.Kind: Utc
+now: 2022/6/8 22:01:19
+now.Kind: Local
+localDateTime: 2022/6/8 22:01:19
+localDateTime.Kind: Local
+localLocalDateTime: 2022/6/8 22:01:19
+localLocalDateTime.Kind: Local
+unspecifiedDateTime: 2022/6/8 22:01:19
+unspecifiedDateTime.Kind: Unspecified
+unspecifiedToLocalDateTime: 2022/6/9 6:01:19
+unspecifiedToLocalDateTime.Kind: Local
+```
+
+可以发现：
+
+1. `DateTime.UtcNow` 的 Kind 是 `Utc`；
+2. `DateTime.Now` 的 Kind 是 `Local`；
+3. `Utc` 调用`.ToLocalTime()`方法可以将时间转为本地时间，且 Kind 转为 `Local`；
+4. `Local` 调用 `.ToLocalTime()` 没有任何意义；
+5. 可以使用`DateTime.SpecifyKind()`方法自定义 Kind；
+
+## Ef Core
+
+使用 EF Core 从数据库读取的 DateTime 的 Kind 默认是 `Unspecified`。

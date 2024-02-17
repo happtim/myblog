@@ -11,7 +11,6 @@ Blazor应用程序使用Razor组件构建，非正式地称为Blazor组件或仅
 
 组件渲染成浏览器的文档对象模型（DOM）的内存表示，称为渲染树，用于以灵活高效的方式更新用户界面。
 
-
 ### Component 类
 
 ComponentBase是由Razor组件文件描述的组件的基类。ComponentBase实现了组件的最低抽象，即IComponent接口。ComponentBase定义了组件的属性和方法，用于基本功能，例如处理一组内置组件生命周期事件。

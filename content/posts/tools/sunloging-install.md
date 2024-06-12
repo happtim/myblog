@@ -47,7 +47,9 @@ yum makecache
 
 ![image.png](https://assets.happtim.com/image/n3dc/202405131648397.png)
 
-缺少依赖包，使用命令sudo apt-get install -f -y即可解决并完成deb的安装。
+
+缺少依赖包，使用命令sudo apt-get install -f -y即可解决修复破损的包依赖，并完成deb的安装。
+
 
 ### 不登陆账户无法远程
 

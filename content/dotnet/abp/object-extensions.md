@@ -23,7 +23,7 @@ builder.Entity<QA_Question>(b =>
 builder.TryConfigureObjectExtensions<QADbContext>();
 ```
 
-
+5. 在Application项目中增加MapperProfile中增加MapExtraProperties。
 ## 如何扩展Module
 
 1. Domain.Shared 项目中 xxxModuleExtensionConfigurator 方法中，对需要扩展模块实体进行扩展。

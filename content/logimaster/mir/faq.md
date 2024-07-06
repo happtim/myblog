@@ -10,3 +10,14 @@
 有时候由于网络问题，wise模块连接异常，需要使用loop和try/catch来包裹一下Set/Wait命令。
 
 ![image.png](https://assets.happtim.com/image/n3dc/202404011110995.png)
+
+
+### 重装Fleet
+
+删除
+sudo docker rm -f $(sudo docker ps -aq)
+sudo docker system prune -af
+
+安装
+sudo chmod 777 *
+sudo bash fleet-install-linux

@@ -11,5 +11,3 @@ using (_currentPrincipalAccessor.Change(new ClaimsPrincipal(new ClaimsIdentity(n
 	//Do Something
 }
 ```
-
-![[Pasted image 20241006122124.png]]
